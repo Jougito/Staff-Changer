@@ -21,15 +21,15 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
             nGroup = 'superadmin'
         else
             nGroup = 'user'
-            TriggerClientEvent('chatMessage', uID, "[" .. Label.Staff   .. "]", Color.Staff, "No se ha encontrado el grupo")
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha encontrado el grupo" }, color = Color.Staff })
         end
         TriggerEvent("es:setPlayerData", uID, "group", nGroup, function(response, success)
             Update = UpdateIdentity(uID, nGroup)
             if Update == 1 then
-                TriggerClientEvent('chatMessage', uID, "[" .. Label.Staff   .. "]", Color.Staff, "Activado permisos de staff")
+                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Activado permisos de staff" }, color = Color.Staff })
                 TriggerClientEvent('sc:Print', uID, nGroup)
             elseif Update == 0 then
-                TriggerClientEvent('chatMessage', uID, "[" .. Label.Staff   .. "]", Color.Staff, "No se ha podido activar los permisos")
+                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido activar los permisos" }, color = Color.Staff })
                 TriggerClientEvent('sc:Print', uID, 'No modificado')
             end
         end)
@@ -37,15 +37,15 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
         TriggerEvent("es:setPlayerData", uID, "group", 'user', function(response, success)
             Update = UpdateIdentity(uID, 'user')
             if Update == 1 then
-                TriggerClientEvent('chatMessage', uID, "[" .. Label.Staff   .. "]", Color.Staff, "Desactivado permisos de staff")
+                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Desactivado permisos de staff" }, color = Color.Staff })
                 TriggerClientEvent('sc:Print', uID, 'user')
             elseif Update == 0 then
-                TriggerClientEvent('chatMessage', uID, "[" .. Label.Staff   .. "]", Color.Staff, "No se ha podido desactivar los permisos")
+                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido desactivar los permisos" }, color = Color.Staff })
                 TriggerClientEvent('sc:Print', uID, 'No modificado')
             end
         end)
     else
-        TriggerClientEvent('chatMessage', uID, "[" .. Label.Staff   .. "]", Color.Staff, "No tienes permisos para usar ese comando")
+        TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No tienes permisos para usar ese comando" }, color = Color.Staff })
         TriggerClientEvent('sc:Print', uID, 'No modificado')
     end
 
