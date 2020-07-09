@@ -23,30 +23,36 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
             nGroup = 'user'
             TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha encontrado el grupo" }, color = Color.Staff })
         end
-        TriggerEvent("es:setPlayerData", uID, "group", nGroup, function(response, success)
-            Update = UpdateIdentity(uID, nGroup)
-            if Update == 1 then
-                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Activado permisos de staff" }, color = Color.Staff })
-                TriggerClientEvent('sc:Print', uID, nGroup)
-            elseif Update == 0 then
-                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido activar los permisos" }, color = Color.Staff })
-                TriggerClientEvent('sc:Print', uID, 'No modificado')
+        Update = UpdateIdentity(uID, nGroup)
+        if Update == 1 then
+            if Config.aSystem == 'es_admin' then
+                TriggerClientEvent('es_admin:setGroup', uID, nGroup)
+            elseif Config.aSystem == 'kc_admin' then
+                TriggerClientEvent("kc_admin:get_group", uID, nGroup)
             end
-        end)
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Activado permisos de staff" }, color = Color.Staff })
+            TriggerClientEvent('sc:Print', uID, nGroup)
+        elseif Update == 0 then
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido activar los permisos" }, color = Color.Staff })
+            TriggerClientEvent('sc:Print', uID, uGroup.group)
+        end
     elseif uGroup.group ~= 'user' then
-        TriggerEvent("es:setPlayerData", uID, "group", 'user', function(response, success)
-            Update = UpdateIdentity(uID, 'user')
-            if Update == 1 then
-                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Desactivado permisos de staff" }, color = Color.Staff })
-                TriggerClientEvent('sc:Print', uID, 'user')
-            elseif Update == 0 then
-                TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido desactivar los permisos" }, color = Color.Staff })
-                TriggerClientEvent('sc:Print', uID, 'No modificado')
+        Update = UpdateIdentity(uID, 'user')
+        if Update == 1 then
+            if Config.aSystem == 'es_admin' then
+                TriggerClientEvent('es_admin:setGroup', uID, 'user')
+            elseif Config.aSystem == 'kc_admin' then
+                TriggerClientEvent("kc_admin:get_group", uID, 'user')
             end
-        end)
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Desactivado permisos de staff" }, color = Color.Staff })
+            TriggerClientEvent('sc:Print', uID, 'user')
+        elseif Update == 0 then
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido desactivar los permisos" }, color = Color.Staff })
+            TriggerClientEvent('sc:Print', uID, uGroup.group)
+        end
     else
         TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No tienes permisos para usar ese comando" }, color = Color.Staff })
-        TriggerClientEvent('sc:Print', uID, 'No modificado')
+        TriggerClientEvent('sc:Print', uID, uGroup.group)
     end
 
 end, false)
@@ -93,28 +99,28 @@ end
 
 -- Version Checking - DON'T TOUCH THIS
 
-local CurrentVersion = '1.0.0'
+local CurrentVersion = '1.0.1'
 local GithubResourceName = 'Staff-Changer'
 
 PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/VERSION', function(Error, NewestVersion, Header)
     PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/CHANGELOG', function(Error, Changes, Header)
-        print('\n')
-        print('[Staff Changer] Checking for updates...')
-        print('')
-        print('[Staff Changer] Current version: ' .. CurrentVersion)
-        print('[Staff Changer] Updater version: ' .. NewestVersion)
-        print('')
+        print('^0')
+        print('^6[Staff Changer]^0 Checking for updates...')
+        print('^0')
+        print('^6[Staff Changer]^0 Current version: ^5' .. CurrentVersion .. '^0')
+        print('^6[Staff Changer]^0 Updater version: ^5' .. NewestVersion .. '^0')
+        print('^0')
         if CurrentVersion ~= NewestVersion then
-            print('[Staff Changer] Your script is outdated!')
-            print('')
-            print('[Staff Changer] CHANGELOG ' .. NewestVersion .. ':')
-            print('')
+            print('^6[Staff Changer]^0 Your script is ^8outdated^0!')
+            print('^0')
+            print('^6[Staff Changer] ^3CHANGELOG ^5' .. NewestVersion .. ':^0')
+            print('^3')
             print(Changes)
-            print('')
-            print('[Staff Changer] You are not running the newest stable version of Staff Changer. Please update: https://github.com/Jougito/Staff-Changer')
+            print('^0')
+            print('^6[Staff Changer]^0 You ^8are not^0 running the newest stable version of ^5Staff Changer^0. Please update: https://github.com/Jougito/Staff-Changer')
         else
-            print('[Staff Changer] Your script is up-to-update')
+            print('^6[Staff Changer]^0 Your script is ^2up-to-update^0')
         end
-        print('\n')
+        print('^0')
     end)
 end)

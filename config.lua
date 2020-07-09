@@ -6,6 +6,7 @@
 Config = {}
 
 Config.Command      = "staff" -- Comando para los reportes
+Config.aSystem      = "es_admin" -- Admin System (es_admin or kc_admin)
 
 Label = {}
 
