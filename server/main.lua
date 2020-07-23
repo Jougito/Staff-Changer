@@ -21,7 +21,7 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
             nGroup = 'superadmin'
         else
             nGroup = 'user'
-            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha encontrado el grupo" }, color = Color.Staff })
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7" .. _U('group_not_found')}, color = Color.Staff })
         end
         Update = UpdateIdentity(uID, nGroup)
         if Update == 1 then
@@ -30,10 +30,10 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
             elseif Config.aSystem == 'kc_admin' then
                 TriggerClientEvent("kc_admin:get_group", uID, nGroup)
             end
-            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Activado permisos de staff" }, color = Color.Staff })
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7" .. _U('enable_permissions') }, color = Color.Staff })
             TriggerClientEvent('sc:Print', uID, nGroup)
         elseif Update == 0 then
-            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido activar los permisos" }, color = Color.Staff })
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7" .. _U('error_enable_permissions') }, color = Color.Staff })
             TriggerClientEvent('sc:Print', uID, uGroup.group)
         end
     elseif uGroup.group ~= 'user' then
@@ -44,14 +44,14 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
             elseif Config.aSystem == 'kc_admin' then
                 TriggerClientEvent("kc_admin:get_group", uID, 'user')
             end
-            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7Desactivado permisos de staff" }, color = Color.Staff })
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7" .. _U('disable_permissions') }, color = Color.Staff })
             TriggerClientEvent('sc:Print', uID, 'user')
         elseif Update == 0 then
-            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No se ha podido desactivar los permisos" }, color = Color.Staff })
+            TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7" .. _U('error_disable_permissions') }, color = Color.Staff })
             TriggerClientEvent('sc:Print', uID, uGroup.group)
         end
     else
-        TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7No tienes permisos para usar ese comando" }, color = Color.Staff })
+        TriggerClientEvent('chat:addMessage', uID, { args = { "[".. Label.Staff .."]", "^7" .. _U('insufficient_permissions') }, color = Color.Staff })
         TriggerClientEvent('sc:Print', uID, uGroup.group)
     end
 
@@ -99,7 +99,7 @@ end
 
 -- Version Checking - DON'T TOUCH THIS
 
-local CurrentVersion = '1.0.1'
+local CurrentVersion = '1.0.2'
 local GithubResourceName = 'Staff-Changer'
 
 PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/VERSION', function(Error, NewestVersion, Header)
